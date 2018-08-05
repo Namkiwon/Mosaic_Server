@@ -1,4 +1,4 @@
-package com.angointeam.Mosaic_Server;
+package com.angointeam.mosaic;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

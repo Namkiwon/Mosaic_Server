@@ -1,4 +1,4 @@
-package com.angointeam.Mosaic_Server;
+package com.angointeam.mosaic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
