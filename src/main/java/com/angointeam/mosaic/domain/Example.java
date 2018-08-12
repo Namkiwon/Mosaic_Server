@@ -15,15 +15,13 @@ import java.util.UUID;
 public class Example {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "uuid", updatable = false, nullable = false)
+//    @Id
+    @GeneratedValue(generator = "hibernate-uuid")
+    @GenericGenerator(name = "hibernate-uuid", strategy = "hibernate-uuid")
+    @Column(name = "uuid", unique = true)
     private UUID uuid;
 
 
