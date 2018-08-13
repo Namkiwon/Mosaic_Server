@@ -14,25 +14,17 @@ import java.util.UUID;
 @Setter
 @ToString
 @Entity
-@Table(name="categories")
-//@IdClass(CategoryPK.class)
+@Table(name="categories",indexes = @Index(columnList = "uuid"))
+
 public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
-    private long id;
-//
-//    @Id
-//    @Type(type="uuid-char")
-//    @GeneratedValue(generator = "UUID")
-//    @GenericGenerator(
-//            name = "UUID",
-//            strategy = "org.hibernate.id.UUIDGenerator"
-//    )
-//    @Column(name = "uuid",insertable = false, updatable = false, nullable = false,unique = true)
-//    private UUID uuid;
+    @Column(name = "idx", updatable = false, nullable = false)
+    private Long idx;
 
-
+    @Type(type="uuid-char")
+    @Column(name = "uuid", updatable = false, nullable = false,unique = true)
+    private UUID uuid;
 
     @Column
     private String name;
@@ -42,7 +34,8 @@ public class Category implements Serializable {
 
     public Category(){}
 
-    public Category(String name, String emoji){
+    public Category(UUID uuid, String name, String emoji){
+        this.uuid = uuid;
         this.name = name;
         this.emoji = emoji;
     }

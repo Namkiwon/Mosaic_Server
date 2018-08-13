@@ -1,58 +1,43 @@
 package com.angointeam.mosaic.domain;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotation;
-import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ManyToAny;
+import org.hibernate.annotations.Type;
 
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "scripts")
-@IdClass(ScriptPK.class)
+@Table(name = "scripts",indexes = @Index(columnList = "uuid"))
 public class Script {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idx", updatable = false, nullable = false)
-    private long idx;
+    private Long idx;
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "uuid", updatable = false, nullable = false)
+    @Type(type="uuid-char")
+    @Column(name = "uuid", updatable = false, nullable = false,unique = true)
     private UUID uuid;
 
     @Column
     private String content;
 
-
-//    @Column(name= "category_uuid")
-//    private String categoryUuid;
-
-    @Column(name= "writer_uuid")
+    @Column(name= "writerUuid")
     private String writerUuid;
 
     @Column(name = "imgUrls")
     @ElementCollection
-    @CollectionTable(name = "script_img_url", joinColumns = {@JoinColumn(name = "idx"), @JoinColumn(name = "uuid")})
+    @CollectionTable(name = "scriptImgUrl", joinColumns = {@JoinColumn(name = "uuid")})
     private List<String> imgUrls;
 
 
@@ -65,29 +50,16 @@ public class Script {
     private String valid;
 
 
-//    @MapsId
-//    @OneToOne
-//    @JoinColumn(name = "category_uuid",referencedColumnName = "uuid",insertable = false, unique = true)
-////    @OneToOne(fetch = FetchType.LAZY,
-////        cascade =  CascadeType.ALL,
-////        mappedBy = "uuid")
-//    @OneToOne(cascade = CascadeType.ALL)
-
-
-//    @JoinColumns( {
-//            @JoinColumn(name = "category_id", referencedColumnName = "id"),
-//            @JoinColumn(name = "category_uuid", referencedColumnName = "uuid")
-//    })
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_uuid",referencedColumnName = "uuid")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Category category;
 
 
     public Script(){}
-    public Script(String content, Category category, String writerUuid, List<String> imgUrls){
+    public Script(UUID uuid ,String content, Category category, String writerUuid, List<String> imgUrls){
+        this.uuid = uuid;
         this.content = content;
-//        this.categoryUuid = categoryUuid;
         this.category = category;
         this.writerUuid = writerUuid;
         this.imgUrls = imgUrls;

@@ -22,18 +22,17 @@ public class ScriptsService {
         return scriptsRepository.findAll();
     }
 
-    public Script addScript(String content, Category category, String writerUuid, List<String> imgUrls) {
+    public Script addScript(UUID uuid ,String content, Category category, String writerUuid, List<String> imgUrls) {
 
-        return scriptsRepository.save(new Script(content,category,writerUuid,imgUrls));
+        return scriptsRepository.save(new Script(uuid, content,category,writerUuid,imgUrls));
     }
-
 
 
     @Autowired
     private CategoryRepository categoryRepository;
 
 
-    public Category getCategoryById(Long id) {
-        return categoryRepository.getOne(id);
+    public Category getCategoryByUuid(UUID uuid) {
+        return categoryRepository.findByUuid(uuid);
     }
 }

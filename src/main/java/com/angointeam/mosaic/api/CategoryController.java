@@ -26,7 +26,7 @@ public class CategoryController {
     @PostMapping("/category")
     @ResponseBody
     public Category addCategory(String name , String emoji) throws IOException {
-        return categoryService.addCategory(name,emoji);
+        return categoryService.addCategory(UUID.randomUUID(),name,emoji);
     }
 
 
