@@ -2,16 +2,15 @@ package com.angointeam.mosaic.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "university")
+@EntityListeners(AuditingEntityListener.class)
 public class University {
 
     @Id

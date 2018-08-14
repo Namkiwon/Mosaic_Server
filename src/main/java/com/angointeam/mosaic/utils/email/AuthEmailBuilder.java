@@ -5,16 +5,10 @@ import org.springframework.mail.SimpleMailMessage;
 public class AuthEmailBuilder {
 
     private String sendTo;
-    private String subject;
     private String emailKey;
 
     public AuthEmailBuilder setSendTo(String sendTo) {
         this.sendTo = sendTo;
-        return this;
-    }
-
-    public AuthEmailBuilder setSubject(String subject) {
-        this.subject = subject;
         return this;
     }
 
@@ -26,7 +20,7 @@ public class AuthEmailBuilder {
     public SimpleMailMessage build() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(sendTo);
-        message.setSubject(subject);
+        message.setSubject("Mosaic 이메일 인증");
         message.setText(emailKey);
         return message;
     }

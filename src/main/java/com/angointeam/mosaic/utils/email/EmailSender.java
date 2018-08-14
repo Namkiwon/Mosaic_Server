@@ -18,4 +18,8 @@ public class EmailSender {
         javaMailSender.send(message);
     }
 
+    public static AuthEmailBuilder messageBuilder() {
+        return new AuthEmailBuilder();
+    }
+
 }
