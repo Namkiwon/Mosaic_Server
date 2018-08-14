@@ -23,8 +23,8 @@ public class CategoryService {
     public Optional<Category> getCategory(long idx) {
         return categoryRepository.findById(idx);
     }
-    public Category addCategory(UUID uuid ,String name, String emoji) {
-        return categoryRepository.save(new Category(uuid ,name,emoji));
+    public Category addCategory(String name, String emoji) {
+        return categoryRepository.save(new Category(UUID.randomUUID().toString() ,name,emoji));
     }
 
 }

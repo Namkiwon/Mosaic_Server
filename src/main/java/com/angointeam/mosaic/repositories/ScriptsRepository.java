@@ -1,9 +1,23 @@
 package com.angointeam.mosaic.repositories;
 
+import com.angointeam.mosaic.domain.Category;
+import com.angointeam.mosaic.domain.Mem;
 import com.angointeam.mosaic.domain.Script;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface ScriptsRepository extends JpaRepository<Script,Long> {
+    public Script findByUuid(String uuid);
+
+    @Modifying
+    public Script save(Script script);
+    @Modifying
+    @Query("update Script s set s.content = ?3,s.category = ?4, s.imgUrls =?5 where s.uuid = ?1 and s.writer = ?2")
+    void updateScript(String scriptUuid, Mem memberInfo, String content, Category category, List<String> imgUrls);
 }

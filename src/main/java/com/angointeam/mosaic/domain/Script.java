@@ -4,11 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.Session;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Type;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -18,22 +22,23 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name = "scripts",indexes = @Index(columnList = "uuid"))
-public class Script {
+public class Script implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idx", updatable = false, nullable = false)
     private Long idx;
 
-    @Type(type="uuid-char")
     @Column(name = "uuid", updatable = false, nullable = false,unique = true)
-    private UUID uuid;
+    private String uuid;
 
-    @Column
+    @Column(name="content")
     private String content;
 
-    @Column(name= "writerUuid")
-    private String writerUuid;
+    @OneToOne
+    @JoinColumn(name = "writerUuid",referencedColumnName = "uuid")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Mem writer;
 
     @Column(name = "imgUrls")
     @ElementCollection
@@ -50,18 +55,23 @@ public class Script {
     private String valid;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_uuid",referencedColumnName = "uuid")
+    @OneToOne
+    @JoinColumn(name = "categoryUuid",referencedColumnName = "uuid")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Category category;
 
+    @Formula("(select count(*) from categories c where c.name = '아르바이트')")
+      private int replies;
+//    @Formula("(select 1 from categories c where exists c.name = 'asdf')")
+    @Transient
+    private String memberUuid;
 
     public Script(){}
-    public Script(UUID uuid ,String content, Category category, String writerUuid, List<String> imgUrls){
+    public Script(String uuid ,String content, Category category, Mem writer, List<String> imgUrls){
         this.uuid = uuid;
         this.content = content;
         this.category = category;
-        this.writerUuid = writerUuid;
+        this.writer = writer;
         this.imgUrls = imgUrls;
     }
 
