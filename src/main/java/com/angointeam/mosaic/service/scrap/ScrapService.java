@@ -27,10 +27,15 @@ public class ScrapService {
         return scrapRepository.findAll();
     }
 
-    public List<Scrap> getAllScrpasByMemberUuid(String memberUuid) {
-        return scrapRepository.findAllByMemberUuid(memberUuid);
+    public List<Script> getAllScrpasByMemberUuid(String memberUuid) {
+        List<Script> scrapList = scrapRepository.findScriptListByMemberUuid(memberUuid);
+        for (int i = 0; i < scrapList.size(); i++){
+            scrapList.get(i).setScrap(true);
+        }
+        return scrapList;
     }
-    public Scrap addScrap(Script script,String memberUuid) {
+    public Scrap addScrap(String scriptUuid,String memberUuid) {
+        Script script = getScriptByUuid(scriptUuid);
         return scrapRepository.save(new Scrap(script,memberUuid));
     }
 

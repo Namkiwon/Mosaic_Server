@@ -1,7 +1,6 @@
 package com.angointeam.mosaic.service.category;
 
 import com.angointeam.mosaic.domain.Category;
-import com.angointeam.mosaic.domain.Example;
 import com.angointeam.mosaic.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

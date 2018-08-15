@@ -3,6 +3,7 @@ package com.angointeam.mosaic.api;
 import com.angointeam.mosaic.api.response.BaseResponse;
 import com.angointeam.mosaic.domain.Category;
 import com.angointeam.mosaic.domain.Scrap;
+import com.angointeam.mosaic.domain.Script;
 import com.angointeam.mosaic.service.category.CategoryService;
 import com.angointeam.mosaic.service.scrap.ScrapService;
 import lombok.RequiredArgsConstructor;
@@ -31,22 +32,36 @@ public class ScrapController {
 //        return scrapService.getScrapByUuid(scriptUuid);
 //    }
 
-//    @GetMapping("/scraps")
-//    public List<Scrap> getAllScraps() {
-//        return scrapService.getAllScraps();
-//    }
 
     @GetMapping("/scraps")
-    public List<Scrap> getAll(String memberUuid) {
-        return scrapService.getAllScrpasByMemberUuid(memberUuid);
+    public BaseResponse<List<Script>> getAll(String memberUuid) {
+        List<Script> scrapList =scrapService.getAllScrpasByMemberUuid(memberUuid);
+        return responseScriptListReturnSuccess(scrapList);
     }
 
     @PostMapping("/scrap")
     @ResponseBody
-    public Scrap addScrap(String scriptUuid,String memberUuid) throws IOException {
-        return scrapService.addScrap(scrapService.getScriptByUuid(scriptUuid), memberUuid);
+    public BaseResponse<Scrap> addScrap(String scriptUuid,String memberUuid) throws IOException {
+        Scrap scrap =scrapService.addScrap(scriptUuid, memberUuid);
+        return responseScrapReturnSuccess(scrap);
     }
 
+    private BaseResponse<Scrap> responseScrapReturnSuccess(Scrap scrap) {
+
+        BaseResponse<Scrap> result = new BaseResponse<>();
+        result.setResponseCode(0);
+        result.setHttpStatus(200);
+        result.setResult(scrap);
+        return result;
+    }
+
+    private BaseResponse<List<Script>> responseScriptListReturnSuccess(List<Script> scrapList) {
+        BaseResponse<List<Script>> result = new BaseResponse<>();
+        result.setResponseCode(0);
+        result.setHttpStatus(200);
+        result.setResult(scrapList);
+        return result;
+    }
 
 //    private BaseResponse<String> responseDeleteScrapSuccess(String resultMessage) {
 //
