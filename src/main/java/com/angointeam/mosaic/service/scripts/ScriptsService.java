@@ -3,9 +3,11 @@ package com.angointeam.mosaic.service.scripts;
 
 import com.angointeam.mosaic.domain.Category;
 import com.angointeam.mosaic.domain.Mem;
+import com.angointeam.mosaic.domain.Scrap;
 import com.angointeam.mosaic.domain.Script;
 import com.angointeam.mosaic.repositories.CategoryRepository;
 import com.angointeam.mosaic.repositories.MemRepository;
+import com.angointeam.mosaic.repositories.ScrapRepository;
 import com.angointeam.mosaic.repositories.ScriptsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +29,9 @@ public class ScriptsService {
         return scriptsRepository.findAll();
     }
 
-    public Script addScript(String uuid, String content, Category category, Mem writer, List<String> imgUrls) {
+    public Script addScript(String uuid, String content, Category category, Mem writer, List<String> imgUrls,List<String> thumbnailUrls) {
 
-        return scriptsRepository.save(new Script(uuid, content,category,writer,imgUrls));
+        return scriptsRepository.save(new Script(uuid, content,category,writer,imgUrls,thumbnailUrls));
     }
 
     public void updateScript(String scriptUuid, Mem memberInfo,String content, Category category,List<String> imgUrls){
@@ -40,6 +42,12 @@ public class ScriptsService {
         scriptsRepository.delete(script);
     }
 
+    @Autowired
+    private ScrapRepository scrapRepository;
+
+    public List<String> getScrapUuidListByUuid(String memberUuid){
+        return scrapRepository.findScriptUuidListByMemberUuid(memberUuid);
+    }
 
     @Autowired
     private CategoryRepository categoryRepository;

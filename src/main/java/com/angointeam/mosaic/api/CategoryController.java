@@ -1,5 +1,6 @@
 package com.angointeam.mosaic.api;
 
+import com.angointeam.mosaic.api.response.BaseResponse;
 import com.angointeam.mosaic.domain.Category;
 import com.angointeam.mosaic.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,19 @@ public class CategoryController {
 
     @PostMapping("/category")
     @ResponseBody
-    public Category addCategory(String name , String emoji) throws IOException {
-        return categoryService.addCategory(name,emoji);
+    public BaseResponse<Category> addCategory(String name , String emoji) throws IOException {
+        Category category = categoryService.addCategory(name,emoji);
+        return responseCategoryReturnSuccess(category);
     }
 
+    private BaseResponse<Category> responseCategoryReturnSuccess(Category category) {
+
+        BaseResponse<Category> result = new BaseResponse<>();
+        result.setResponseCode(0);
+        result.setHttpStatus(200);
+        result.setResult(category);
+
+        return result;
+    }
 
 }

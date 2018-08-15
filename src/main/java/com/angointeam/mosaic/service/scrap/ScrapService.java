@@ -30,9 +30,12 @@ public class ScrapService {
     public List<Scrap> getAllScrpasByMemberUuid(String memberUuid) {
         return scrapRepository.findAllByMemberUuid(memberUuid);
     }
-
     public Scrap addScrap(Script script,String memberUuid) {
         return scrapRepository.save(new Scrap(script,memberUuid));
+    }
+
+    public void deleteScrap(Scrap scrap){
+        scrapRepository.delete(scrap);
     }
 
     @Autowired
