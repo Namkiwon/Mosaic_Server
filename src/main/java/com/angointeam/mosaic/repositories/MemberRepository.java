@@ -18,6 +18,8 @@ public interface MemberRepository  extends JpaRepository<Member,Long> {
 
     Optional<Member> findMemberByEmail(String email);
 
+    Member findByUuid(String uuid);
+
     @Override
     @CacheEvict("byUuid")
     <S extends Member> S save(S var1);
