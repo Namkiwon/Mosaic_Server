@@ -88,6 +88,7 @@ public class ScriptsService {
         scriptsRepository.delete(script);
     }
 
+
     @Autowired
     private ScrapRepository scrapRepository;
 

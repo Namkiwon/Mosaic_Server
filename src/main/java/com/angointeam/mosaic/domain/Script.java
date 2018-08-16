@@ -8,6 +8,7 @@ import org.hibernate.annotations.*;
 
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -71,11 +72,10 @@ public class Script implements Serializable {
     @Formula("(select count(*) from categories c where c.name = '아르바이트')")
     private int replies;
 
-//    @OneToOne
-//    @JoinTable(name="Scrap", joinColumns={@JoinColumn(name ="memberUuid")})
-//    @FilterJoinTable(name="scrap", condition=":memberUuid = memberUuid")
     @Transient
     private boolean scrap;
+
+
 
     public Script(){}
     public Script(String uuid ,String content, Category category, Member writer, List<String> imgUrls,List<String> thumbnailUrls){
