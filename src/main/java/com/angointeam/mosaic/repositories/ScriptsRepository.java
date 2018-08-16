@@ -20,4 +20,7 @@ public interface ScriptsRepository extends JpaRepository<Script,Long> {
 
     @Query("SELECT s From Script s Where  s.category.uuid = ?1")
     List<Script> findAllByCategoryUuid(String categoryUuid);
+
+    @Query("SELECT s From Script s Where  s.content like %?1%")
+    List<Script> findAllByKeyword(String keyword);
 }

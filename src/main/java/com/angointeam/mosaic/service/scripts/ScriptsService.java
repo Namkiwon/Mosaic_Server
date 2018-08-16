@@ -37,6 +37,16 @@ public class ScriptsService {
         return scriptsRepository.findByUuid(uuid);
     }
 
+
+    public List<Script> findAllByKeyword(String keyword,String memberUuid){
+        List<Script> scriptList = scriptsRepository.findAllByKeyword(keyword);
+        List<String>  scrapList = getScrapUuidListByUuid(memberUuid);
+        for(int i = 0 ; i < scriptList.size(); i++){
+            if(scrapList.contains(scriptList.get(i).getUuid())) scriptList.get(i).setScrap(true);
+        }
+        return scriptList;
+    }
+
     public List<Script> getAllScripts(String memberUuid,List<String> categories) {
         List<Script> scriptList = new ArrayList<>();
         if(categories.size() == 0) {scriptList =scriptsRepository.findAll();}

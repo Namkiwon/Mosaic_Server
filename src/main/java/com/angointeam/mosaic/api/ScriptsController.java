@@ -28,6 +28,12 @@ public class ScriptsController {
         Script script = scriptsService.getScriptByUuid(scriptUuid);
         return responseScriptReturnSuccess(script);
     }
+    @GetMapping("/scripts/search")
+    public BaseResponse<List<Script>> searchByKeyword(@AuthenticationPrincipal @ApiIgnore final Member member,String keyword) {
+        List<Script> scriptList = scriptsService.findAllByKeyword(keyword,member.getUuid());
+        return responseScriptListReturnSuccess(scriptList);
+    }
+
 
     @GetMapping("/scripts")
     public BaseResponse<List<Script>> getAll(@AuthenticationPrincipal @ApiIgnore final Member member) {
