@@ -19,8 +19,9 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping("/categories")
-    public List<Category> getAll() {
-        return categoryService.getAllCategories();
+    public BaseResponse<List<Category>> getAll() {
+        List<Category> categories = categoryService.getAllCategories();
+        return responseCategoryListReturnSuccess(categories);
     }
 
 
@@ -37,6 +38,16 @@ public class CategoryController {
         result.setResponseCode(0);
         result.setHttpStatus(200);
         result.setResult(category);
+
+        return result;
+    }
+
+    private BaseResponse<List<Category>> responseCategoryListReturnSuccess(List<Category> categories) {
+
+        BaseResponse<List<Category>> result = new BaseResponse<>();
+        result.setResponseCode(0);
+        result.setHttpStatus(200);
+        result.setResult(categories);
 
         return result;
     }
