@@ -11,14 +11,21 @@ import java.util.List;
 @Repository
 public interface ScrapRepository extends JpaRepository<Scrap,Long> {
 
-    public Scrap findByScriptUuid(String uuid);
+    Scrap findByScriptUuid(String uuid);
 
-    public List<Scrap> findAllByMemberUuid(String uuid);
+    List<Scrap> findAllByMemberUuid(String uuid);
 
     @Query("SELECT s.script From Scrap s Where  s.memberUuid = ?1")
-    public List<Script> findScriptListByMemberUuid(String uuid);
+    List<Script> findScriptListByMemberUuid(String uuid);
 
     @Query("SELECT s.script.uuid From Scrap s Where  s.memberUuid = ?1")
-    public List<String> findScriptUuidListByMemberUuid(String uuid);
+    List<String> findScriptUuidListByMemberUuid(String uuid);
+
+    @Query("SELECT s From Scrap s Where  s.script.uuid = ?1 and s.memberUuid = ?2")
+    Scrap findScrapByScriptUuidAndMemberUuid(String scriptUuid, String memberUuid);
+
+
+//    @Query ("DELETE FROM Scrap s WHERE  s.memberUuid = ?2")
+//    void deleteScrapByScriptUuidAndMemberUuid(String scriptUuid,String memberUuid);
 
 }

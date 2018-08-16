@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
-    public Category findByUuid(String uuid);
+    Category findByUuid(String uuid);
 
 }

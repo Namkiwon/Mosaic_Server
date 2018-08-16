@@ -23,8 +23,11 @@ public class ScriptsController {
     @Autowired
     ScriptsService scriptsService;
 
-    @Autowired
-    private EntityManager entityManager;
+    @GetMapping("/script")
+    public BaseResponse<Script> getScript(String scriptUuid){
+        Script script = scriptsService.getScriptByUuid(scriptUuid);
+        return responseScriptReturnSuccess(script);
+    }
 
     @GetMapping("/scripts")
     public BaseResponse<List<Script>> getAll(@AuthenticationPrincipal @ApiIgnore final Member member) {
@@ -36,20 +39,16 @@ public class ScriptsController {
 
     @PostMapping("/script")
     @ResponseBody
-    public BaseResponse<Script> addScript(String content , String categoryUuid, String writerUuid, @RequestParam("imgUrls") List<MultipartFile> multipartFiles) throws IOException {
-        Script script = scriptsService.addScript(content,categoryUuid,writerUuid,multipartFiles);
+    public BaseResponse<Script> addScript(@AuthenticationPrincipal @ApiIgnore final Member member, String content , String categoryUuid, @RequestParam("imgUrls") List<MultipartFile> multipartFiles) throws IOException {
+        Script script = scriptsService.addScript(content,categoryUuid,member.getUuid(),multipartFiles);
         return responseScriptReturnSuccess(script);
     }
 
     @DeleteMapping("/script")
     public BaseResponse<String> deleteScript(String scriptUuid) throws IOException {
         Script script = scriptsService.getScriptByUuid(scriptUuid);
-        if(script == null){
-            return responseMessageReturnSuccess("not found script");
-        }else{
-            scriptsService.deleteScript(script);
-            return responseMessageReturnSuccess("not found script");
-        }
+        scriptsService.deleteScript(script);
+        return responseMessageReturnSuccess("delete success");
     }
 
     private BaseResponse<String> responseMessageReturnSuccess(String resultMessage) {

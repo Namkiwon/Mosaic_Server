@@ -12,12 +12,12 @@ import java.util.List;
 
 @Repository
 public interface ScriptsRepository extends JpaRepository<Script,Long> {
-    public Script findByUuid(String uuid);
+    Script findByUuid(String uuid);
 
     @Modifying
     @Query("update Script s set s.content = ?3,s.category = ?4, s.imgUrls =?5 where s.uuid = ?1 and s.writer = ?2")
     void updateScript(String scriptUuid, Member memberInfo, String content, Category category, List<String> imgUrls);
 
     @Query("SELECT s From Script s Where  s.category.uuid = ?1")
-    public List<Script> findAllByCategoryUuid(String categoryUuid);
+    List<Script> findAllByCategoryUuid(String categoryUuid);
 }

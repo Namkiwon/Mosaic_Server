@@ -29,11 +29,11 @@ public class ScrapController {
         return scrapService.getScrapByUuid(scriptUuid);
     }
 
-//    @DeleteMapping("/scrap")
-//    public BaseResponse<String> deleteScrap(String scriptUuid) {
-//
-//        return scrapService.getScrapByUuid(scriptUuid);
-//    }
+    @DeleteMapping("/scrap")
+    public BaseResponse<String> deleteScrap(@AuthenticationPrincipal @ApiIgnore final Member member,String scriptUuid) {
+        scrapService.deleteScrap(scriptUuid,member.getUuid());
+        return responseMessageReturnSuccess("delete success");
+    }
 
 
     @GetMapping("/scraps")
@@ -66,13 +66,13 @@ public class ScrapController {
         return result;
     }
 
-//    private BaseResponse<String> responseDeleteScrapSuccess(String resultMessage) {
-//
-//        BaseResponse<String> result = new BaseResponse<>();
-//        result.setResponseCode(0);
-//        result.setHttpStatus(200);
-//        result.setResult(resultMessage);
-//        return result;
-//    }
+    private BaseResponse<String> responseMessageReturnSuccess(String resultMessage) {
+
+        BaseResponse<String> result = new BaseResponse<>();
+        result.setResponseCode(0);
+        result.setHttpStatus(200);
+        result.setResult(resultMessage);
+        return result;
+    }
 
 }
