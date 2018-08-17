@@ -38,8 +38,6 @@ public class ScrapService {
     }
 
     public void deleteScrap(String scriptUuid,String memberUuid){
-        System.out.println("sdfdf");
-        System.out.println(getScriptByUuid(scriptUuid));
         scrapRepository.delete(scrapRepository.findScrapByScriptUuidAndMemberUuid(scriptUuid,memberUuid));
     }
 

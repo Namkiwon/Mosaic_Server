@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.persistence.EntityManager;
+import javax.persistence.TransactionRequiredException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -33,11 +35,12 @@ public class ScriptsService {
     @Autowired
     private ScriptsRepository scriptsRepository;
 
+    //스크립트 하나 가져오기
     public Script getScriptByUuid(String uuid){
         return scriptsRepository.findByUuid(uuid);
     }
 
-
+    //컨텐트 검색으로 스크립트들 가져오기
     public List<Script> findAllByKeyword(String keyword,String memberUuid){
         List<Script> scriptList = scriptsRepository.findAllByKeyword(keyword);
         List<String>  scrapList = getScrapUuidListByUuid(memberUuid);
@@ -47,9 +50,10 @@ public class ScriptsService {
         return scriptList;
     }
 
+    //모든 스크립트 가져오기
     public List<Script> getAllScripts(String memberUuid,List<String> categories) {
         List<Script> scriptList = new ArrayList<>();
-        if(categories.size() == 0) {scriptList =scriptsRepository.findAll();}
+        if(categories.size() == 0) {scriptList =scriptsRepository.findAllWhereValidTrue();}
         else{
             for (int i= 0; i < categories.size();i++){
                 scriptList.addAll(scriptsRepository.findAllByCategoryUuid(categories.get(i)));
@@ -62,6 +66,12 @@ public class ScriptsService {
         return scriptList;
     }
 
+    //내 스크립트들만 가져오기
+    public List<Script> getMyScripts(String memberUuid) {
+        return scriptsRepository.findAllByMemberUuid(memberUuid);
+    }
+
+    //스크립트 작성하기
     public Script addScript(String content, String categoryUuid, String writerUuid, List<MultipartFile> multipartFiles)throws IOException {
         UUID uuid = UUID.randomUUID();
         List<String> imgUrls = new ArrayList<String>();
@@ -80,12 +90,14 @@ public class ScriptsService {
         return scriptsRepository.save(new Script(uuid.toString(), content,category,writer,imgUrls,thumbnailUrls));
     }
 
+    //스크립트 업데이트하기
     public void updateScript(String scriptUuid, Member memberInfo,String content, Category category,List<String> imgUrls){
          scriptsRepository.updateScript(scriptUuid,memberInfo,content,category,imgUrls );
     }
 
-    public void deleteScript(Script script){
-        scriptsRepository.delete(script);
+    //스크립트 삭제 -> 사실상 발리드만 false
+    public void deleteScript(String scriptUuid)  {
+        scriptsRepository.updateScriptValidFalse(scriptUuid);
     }
 
 

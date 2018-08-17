@@ -23,18 +23,27 @@ public class ScriptsController {
     @Autowired
     ScriptsService scriptsService;
 
+    //스크립트 하나 ㅏ가져오기
     @GetMapping("/script")
     public BaseResponse<Script> getScript(String scriptUuid){
         Script script = scriptsService.getScriptByUuid(scriptUuid);
         return responseScriptReturnSuccess(script);
     }
+
+    //컨텐트 기반으로 검색된 스크립트 리스트 가져오기
     @GetMapping("/scripts/search")
     public BaseResponse<List<Script>> searchByKeyword(@AuthenticationPrincipal @ApiIgnore final Member member,String keyword) {
         List<Script> scriptList = scriptsService.findAllByKeyword(keyword,member.getUuid());
         return responseScriptListReturnSuccess(scriptList);
     }
 
+    @GetMapping("/scripts/mine")
+    public BaseResponse<List<Script>> getMyScripts(@AuthenticationPrincipal @ApiIgnore final Member member) {
+        List<Script> scriptList = scriptsService.getMyScripts(member.getUuid());
+        return responseScriptListReturnSuccess(scriptList);
+    }
 
+    //모든 스크립트 리스트 가져오기 (카테고리화 정리)
     @GetMapping("/scripts")
     public BaseResponse<List<Script>> getAll(@AuthenticationPrincipal @ApiIgnore final Member member) {
         List<String> categories = new ArrayList<>();
@@ -43,6 +52,7 @@ public class ScriptsController {
         return responseScriptListReturnSuccess(scriptList);
     }
 
+    //스크립트 작성하기
     @PostMapping("/script")
     @ResponseBody
     public BaseResponse<Script> addScript(@AuthenticationPrincipal @ApiIgnore final Member member, String content , String categoryUuid, @RequestParam("imgUrls") List<MultipartFile> multipartFiles) throws IOException {
@@ -50,10 +60,10 @@ public class ScriptsController {
         return responseScriptReturnSuccess(script);
     }
 
+    //스크립트 지우기
     @DeleteMapping("/script")
     public BaseResponse<String> deleteScript(String scriptUuid) throws IOException {
-        Script script = scriptsService.getScriptByUuid(scriptUuid);
-        scriptsService.deleteScript(script);
+        scriptsService.deleteScript(scriptUuid);
         return responseMessageReturnSuccess("delete success");
     }
 

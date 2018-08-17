@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.*;
+import org.springframework.data.jpa.repository.Modifying;
 
 
 import javax.persistence.*;
@@ -60,7 +61,7 @@ public class Script implements Serializable {
     private Date created;
 
     @Column
-    private String valid;
+    private boolean valid;
 
     @OneToOne
     @JoinColumn(name = "categoryUuid",referencedColumnName = "uuid")
@@ -76,7 +77,6 @@ public class Script implements Serializable {
     private boolean scrap;
 
 
-
     public Script(){}
     public Script(String uuid ,String content, Category category, Member writer, List<String> imgUrls,List<String> thumbnailUrls){
         this.uuid = uuid;
@@ -85,6 +85,7 @@ public class Script implements Serializable {
         this.writer = writer;
         this.imgUrls = imgUrls;
         this.thumbnailUrls = thumbnailUrls;
+        this.valid = true;
     }
 
 }
