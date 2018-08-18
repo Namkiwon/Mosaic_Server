@@ -1,5 +1,6 @@
 package com.angointeam.mosaic.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -54,7 +55,7 @@ public class Script implements Serializable {
     @CollectionTable(name = "thumbnailUrls", joinColumns = {@JoinColumn(name = "idx")})
     private List<String> thumbnailUrls;
 
-
+    @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false, updatable=false)
     @CreationTimestamp
@@ -65,7 +66,7 @@ public class Script implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "categoryUuid",referencedColumnName = "uuid")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","idx","uuid"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","idx","uuid","valid"})
     private Category category;
 
     //Reply 갯수 넣을 부분
@@ -74,6 +75,14 @@ public class Script implements Serializable {
 
     @Transient
     private boolean scrap;
+
+    @Transient
+    private Long createdAt;
+
+    public Long getCreatedAt(){
+        return created.getTime();
+    }
+
 
     public Script(){}
     public Script(String uuid ,String content, Category category, Member writer, List<String> imgUrls,List<String> thumbnailUrls){
