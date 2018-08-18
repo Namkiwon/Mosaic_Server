@@ -69,13 +69,11 @@ public class Script implements Serializable {
     private Category category;
 
     //Reply 갯수 넣을 부분
-    @Filter(name="scrap")
-    @Formula("(select count(*) from categories c where c.name = '아르바이트')")
+    @Formula("(select count(*) from replies r where r.valid  = true and r.script_uuid = uuid)")
     private int replies;
 
     @Transient
     private boolean scrap;
-
 
     public Script(){}
     public Script(String uuid ,String content, Category category, Member writer, List<String> imgUrls,List<String> thumbnailUrls){
