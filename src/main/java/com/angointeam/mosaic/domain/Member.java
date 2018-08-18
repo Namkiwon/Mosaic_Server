@@ -50,11 +50,13 @@ public class Member implements UserDetails {
     @ManyToOne
     private University university;
 
+    @JsonIgnore
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date created;
 
+    @JsonIgnore
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate

@@ -56,11 +56,13 @@ public class Reply {
 
     private String thumbnailUrl;
 
+    @JsonIgnore
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date created;
 
+    @JsonIgnore
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
@@ -72,10 +74,12 @@ public class Reply {
     @Transient
     private Long updatedAt;
 
+    @Transient
     public Long getCreatedAt() {
         return created.getTime();
     }
 
+    @Transient
     public Long getUpdatedAt() {
         return updated.getTime();
     }
