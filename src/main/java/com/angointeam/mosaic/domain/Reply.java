@@ -23,6 +23,7 @@ public class Reply {
     @Column(updatable = false, nullable = false)
     private long idx;
 
+    @Column(updatable = false, nullable = false, unique = true)
     private String uuid;
 
     @OneToOne
@@ -36,8 +37,9 @@ public class Reply {
     @Transient
     private String upperReplyUuid;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "scriptUuid", referencedColumnName = "uuid")
     private Script script;
 
     @ManyToOne
