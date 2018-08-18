@@ -1,5 +1,6 @@
 package com.angointeam.mosaic.config.security;
 
+import com.angointeam.mosaic.repositories.MemberRepository;
 import com.angointeam.mosaic.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +16,10 @@ import java.util.Optional;
 public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
     @Autowired
-    MemberService memberService;
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
@@ -28,7 +32,9 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
         return Optional
                 .ofNullable(token)
                 .map(String::valueOf)
-                .map(memberService::findByToken)
+                .map(tokenService::verify)
+                .map(tokenMap -> tokenMap.get("uuid"))
+                .flatMap(memberRepository::findMemberByUuid)
                 .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with authentication token=" + token));
     }
 

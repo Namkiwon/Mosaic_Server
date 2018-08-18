@@ -11,6 +11,8 @@ public interface MemberRepository  extends JpaRepository<Member,Long> {
 
     Optional<Member> findMemberByUuidAndAuthKey(String uuid, String authKey);
 
+    Optional<Member> findMemberByUuidAndEmailKey(String uuid, String emailKey);
+
     @Cacheable("byUuid")
     Optional<Member> findMemberByUuid(String uuid);
 

@@ -19,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/apis")
 public class ScrapController {
 
     @Autowired

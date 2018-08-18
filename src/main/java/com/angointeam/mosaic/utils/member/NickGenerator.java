@@ -1,23 +1,10 @@
 package com.angointeam.mosaic.utils.member;
 
 
-import com.angointeam.mosaic.repositories.MemberRepository;
-import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.IdentifierGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.RandomStringUtils;
 
-import java.io.Serializable;
-
-public class NickGenerator implements IdentifierGenerator {
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Override
-    public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
-
-
-        return null;
+public class NickGenerator {
+    public static String gen() {
+        return RandomStringUtils.random(10,true,true);
     }
 }

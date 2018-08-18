@@ -93,7 +93,6 @@ public class JWTTokenService implements Clock, TokenService {
                 .setClock(this)
                 .setAllowedClockSkewSeconds(clockSkewSec);
 
-        // See: https://github.com/jwtk/jjwt/issues/135
         final String withoutSignature = substringBeforeLast(token, DOT) + DOT;
         return parseClaims(() -> parser.parseClaimsJwt(withoutSignature).getBody());
     }

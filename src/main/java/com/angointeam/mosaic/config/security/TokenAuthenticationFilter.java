@@ -32,7 +32,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
     public Authentication attemptAuthentication(
             final HttpServletRequest request,
             final HttpServletResponse response) {
-
+        System.out.println("attemptAuthentication");
         final String param = ofNullable(request.getHeader(AUTHORIZATION))
                 .orElse(request.getParameter("t"));
 

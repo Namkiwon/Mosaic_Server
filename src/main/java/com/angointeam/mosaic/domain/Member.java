@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -31,6 +32,7 @@ public class Member implements UserDetails {
     @Column(columnDefinition = "VARCHAR(10)")
     private String nick;
 
+    @JsonIgnore
     @Column(columnDefinition = "VARCHAR(100)", updatable = false, nullable = false, unique = true)
     private String email;
 
@@ -38,6 +40,10 @@ public class Member implements UserDetails {
     private String authKey;
 
     private boolean authenticated = false;
+
+    @JsonIgnore
+    @Column(columnDefinition = "VARCHAR(15)")
+    private String emailKey;
 
     @ManyToOne
     private University university;
@@ -54,7 +60,7 @@ public class Member implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return new ArrayList<>();
     }
 
 
