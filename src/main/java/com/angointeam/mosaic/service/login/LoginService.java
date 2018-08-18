@@ -42,7 +42,7 @@ public class LoginService {
     public Map<String, String> login(String uuid, String authKey) {
         return memberRepository.findMemberByUuidAndAuthKey(uuid,authKey)
                 .map(member -> {
-                    if (!member.isAuthenticated()) throw new EmailNotYetException();
+                    //if (!member.isAuthenticated()) throw new EmailNotYetException();
                     return tokenService.expiring(ImmutableMap.of("uuid",uuid));
                 })
                 .map(this::createTokenMap)

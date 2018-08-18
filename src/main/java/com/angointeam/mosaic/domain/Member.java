@@ -36,9 +36,11 @@ public class Member implements UserDetails {
     @Column(columnDefinition = "VARCHAR(100)", updatable = false, nullable = false, unique = true)
     private String email;
 
+    @JsonIgnore
     @Column(columnDefinition = "VARCHAR(100)", updatable = false, nullable = false)
     private String authKey;
 
+    @JsonIgnore
     private boolean authenticated = false;
 
     @JsonIgnore
@@ -51,12 +53,26 @@ public class Member implements UserDetails {
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    private Date createdAt;
+    private Date created;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    private Date updatedAt;
+    private Date updated;
+
+    @Transient
+    private Long createdAt;
+
+    @Transient
+    private Long updatedAt;
+
+    public Long getCreatedAt() {
+        return created.getTime();
+    }
+
+    public Long getUpdatedAt() {
+        return updated.getTime();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,31 +80,37 @@ public class Member implements UserDetails {
     }
 
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return authKey;
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return uuid;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
