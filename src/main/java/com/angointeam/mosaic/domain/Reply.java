@@ -3,6 +3,7 @@ package com.angointeam.mosaic.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -53,16 +54,33 @@ public class Reply {
 
     private String imgUrl;
 
+    private String thumbnailUrl;
+
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    private Date createdAt;
+    private Date created;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    private Date updatedAt;
+    private Date updated;
 
+    @Transient
+    private Long createdAt;
+
+    @Transient
+    private Long updatedAt;
+
+    public Long getCreatedAt() {
+        return created.getTime();
+    }
+
+    public Long getUpdatedAt() {
+        return updated.getTime();
+    }
+
+    @JsonIgnore
     @Column
     private boolean valid;
 

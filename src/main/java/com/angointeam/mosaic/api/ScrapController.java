@@ -7,6 +7,8 @@ import com.angointeam.mosaic.domain.Scrap;
 import com.angointeam.mosaic.domain.Script;
 import com.angointeam.mosaic.service.category.CategoryService;
 import com.angointeam.mosaic.service.scrap.ScrapService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,11 +28,19 @@ public class ScrapController {
     ScrapService scrapService;
 
     @GetMapping("/scrap")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     public Scrap getScrap(String scriptUuid) {
         return scrapService.getScrapByUuid(scriptUuid);
     }
 
     @DeleteMapping("/scrap")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     public BaseResponse<String> deleteScrap(@AuthenticationPrincipal @ApiIgnore final Member member,String scriptUuid) {
         scrapService.deleteScrap(scriptUuid,member.getUuid());
         return responseMessageReturnSuccess("delete success");
@@ -38,12 +48,20 @@ public class ScrapController {
 
 
     @GetMapping("/scraps")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     public BaseResponse<List<Script>> getAll(@AuthenticationPrincipal @ApiIgnore final Member member) {
         List<Script> scrapList =scrapService.getAllScrpasByMemberUuid(member.getUuid());
         return responseScriptListReturnSuccess(scrapList);
     }
 
     @PostMapping("/scrap")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     @ResponseBody
     public BaseResponse<Scrap> addScrap(@AuthenticationPrincipal @ApiIgnore final Member member, String scriptUuid) throws IOException {
         Scrap scrap =scrapService.addScrap(scriptUuid, member.getUuid());

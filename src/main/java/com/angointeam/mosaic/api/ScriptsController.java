@@ -5,6 +5,8 @@ import com.angointeam.mosaic.domain.Member;
 import com.angointeam.mosaic.domain.Script;
 import com.angointeam.mosaic.etc.S3Uploader;
 import com.angointeam.mosaic.service.scripts.ScriptsService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,6 +28,10 @@ public class ScriptsController {
 
     //스크립트 하나 ㅏ가져오기
     @GetMapping("/script")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     public BaseResponse<Script> getScript(String scriptUuid){
         Script script = scriptsService.getScriptByUuid(scriptUuid);
         return responseScriptReturnSuccess(script);
@@ -33,12 +39,20 @@ public class ScriptsController {
 
     //컨텐트 기반으로 검색된 스크립트 리스트 가져오기
     @GetMapping("/scripts/search")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     public BaseResponse<List<Script>> searchByKeyword(@AuthenticationPrincipal @ApiIgnore final Member member,String keyword) {
         List<Script> scriptList = scriptsService.findAllByKeyword(keyword,member.getUuid());
         return responseScriptListReturnSuccess(scriptList);
     }
 
     @GetMapping("/scripts/mine")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     public BaseResponse<List<Script>> getMyScripts(@AuthenticationPrincipal @ApiIgnore final Member member) {
         List<Script> scriptList = scriptsService.getMyScripts(member.getUuid());
         return responseScriptListReturnSuccess(scriptList);
@@ -46,6 +60,10 @@ public class ScriptsController {
 
     //모든 스크립트 리스트 가져오기 (카테고리화 정리)
     @GetMapping("/scripts")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     public BaseResponse<List<Script>> getAll(@AuthenticationPrincipal @ApiIgnore final Member member) {
         List<String> categories = new ArrayList<>();
         List<Script> scriptList = scriptsService.getAllScripts(member.getUuid(),categories);
@@ -55,14 +73,23 @@ public class ScriptsController {
 
     //스크립트 작성하기
     @PostMapping("/script")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     @ResponseBody
     public BaseResponse<Script> addScript(@AuthenticationPrincipal @ApiIgnore final Member member, String content , String categoryUuid, @RequestParam("imgUrls") List<MultipartFile> multipartFiles) throws IOException {
+
         Script script = scriptsService.addScript(content,categoryUuid,member.getUuid(),multipartFiles);
         return responseScriptReturnSuccess(script);
     }
 
     //스크립트 지우기
     @DeleteMapping("/script")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
+                    , dataType = "string", paramType = "header")
+    })
     public BaseResponse<String> deleteScript(String scriptUuid) throws IOException {
         scriptsService.deleteScript(scriptUuid);
         return responseMessageReturnSuccess("delete success");

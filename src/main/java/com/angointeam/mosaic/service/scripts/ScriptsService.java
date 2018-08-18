@@ -76,6 +76,9 @@ public class ScriptsService {
         UUID uuid = UUID.randomUUID();
         List<String> imgUrls = new ArrayList<String>();
         List<String> thumbnailUrls = new ArrayList<String>();
+
+        System.out.println("multipartFile : "+multipartFiles);
+
         for (int i = 0; i < multipartFiles.size(); i++) {
             imgUrls.add(s3Uploader.upload(multipartFiles.get(i), "scripts/"+uuid));  //원본 이미지
             BufferedImage image = ImageIO.read(multipartFiles.get(i).getInputStream());
@@ -84,6 +87,7 @@ public class ScriptsService {
             ImageIO.write(resized, "png", outputfile);
             thumbnailUrls.add(s3Uploader.upload(outputfile, "scripts/"+uuid+"/thumbnail"));//썸네일 이미지
         }
+
         Category category = getCategoryByUuid(categoryUuid);
         Member writer = getWriter(writerUuid);
 
