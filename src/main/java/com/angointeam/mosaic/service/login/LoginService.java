@@ -55,7 +55,7 @@ public class LoginService {
 
         if (universityOptional.isPresent())
             return universityOptional.map(university -> createMember(university,email))
-                    .map(this::sendAuthEmail)
+                    //.map(this::sendAuthEmail)
                     .map(member -> createUuidAndKeyMap(member.getUuid(),member.getAuthKey()))
                     .orElseThrow(LoginErrorException::new);
 
