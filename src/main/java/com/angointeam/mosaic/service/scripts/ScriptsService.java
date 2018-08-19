@@ -77,7 +77,9 @@ public class ScriptsService {
         List<String> imgUrls = new ArrayList<String>();
         List<String> thumbnailUrls = new ArrayList<String>();
 
-        System.out.println("multipartFile : "+multipartFiles);
+        Category category = categoryRepository.findByUuid(categoryUuid);
+
+        if (category == null) throw new CategoryNotFoundException();
 
         for (int i = 0; i < multipartFiles.size(); i++) {
             imgUrls.add(s3Uploader.upload(multipartFiles.get(i), "scripts/"+uuid));  //원본 이미지
@@ -88,7 +90,6 @@ public class ScriptsService {
             thumbnailUrls.add(s3Uploader.upload(outputfile, "scripts/"+uuid+"/thumbnail"));//썸네일 이미지
         }
 
-        Category category = getCategoryByUuid(categoryUuid);
         Member writer = getWriter(writerUuid);
 
         return scriptsRepository.save(new Script(uuid.toString(), content,category,writer,imgUrls,thumbnailUrls));
