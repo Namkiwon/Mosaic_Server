@@ -64,7 +64,7 @@ public class ScriptsController {
             @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
                     , dataType = "string", paramType = "header")
     })
-    public BaseResponse<List<Script>> getAll(@AuthenticationPrincipal @ApiIgnore final Member member,List<String> categories) {
+    public BaseResponse<List<Script>> getAll(@AuthenticationPrincipal @ApiIgnore final Member member,@ModelAttribute List<String> categories) {
 //        List<String> categories = new ArrayList<>();
         List<Script> scriptList = scriptsService.getAllScripts(member.getUuid(),categories);
         System.out.println(categories);
