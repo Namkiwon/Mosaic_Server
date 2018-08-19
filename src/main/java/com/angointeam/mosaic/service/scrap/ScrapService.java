@@ -32,9 +32,17 @@ public class ScrapService {
         }
         return scrapList;
     }
-    public Scrap addScrap(String scriptUuid,String memberUuid) {
+    public Script addScrap(String scriptUuid,String memberUuid) {
+        Scrap scrap = scrapRepository.findScrapByScriptUuidAndMemberUuid(scriptUuid,memberUuid);
         Script script = getScriptByUuid(scriptUuid);
-        return scrapRepository.save(new Scrap(script,memberUuid));
+        if(scrap == null){
+            scrapRepository.save(new Scrap(script,memberUuid));
+            script.setScrap(true);
+        } else{
+            scrapRepository.delete(scrap);
+            script.setScrap(false);
+        }
+        return script;
     }
 
     public void deleteScrap(String scriptUuid,String memberUuid){
