@@ -47,8 +47,10 @@ public class ReplyService {
 
         reply.setScript(script);
 
+        Reply upperReply = null;
+
         if (upperReplyUuid != null) {
-            Reply upperReply = replyRepository.findReplyByUuid(upperReplyUuid)
+            upperReply = replyRepository.findReplyByUuid(upperReplyUuid)
                     .orElseThrow(ReplyNotFoundException::new);
 
             reply.setUpperReply(upperReply);
@@ -67,7 +69,14 @@ public class ReplyService {
 
         }
 
-        return replyRepository.save(reply);
+        Reply r = replyRepository.save(reply);
+
+        if (r != null && upperReply != null) {
+           upperReply.getChildReplies().add(r);
+           replyRepository.save(upperReply);
+        }
+
+        return r;
 
     }
 
@@ -85,12 +94,15 @@ public class ReplyService {
 
         if (script == null) throw new ScrpitNotFoundException();
 
-        List<Reply> replies = replyRepository.findReplyByScript(script.getUuid());
+        List<Reply> replies = replyRepository.findRepliesByScript(script);
         List<Reply> result = new ArrayList<>();
 
         for (Reply r : replies) {
-            result.add(r);
-            result.addAll(r.getChildReplies());
+            if ( !result.contains(r) ) {
+                result.add(r);
+                result.addAll(r.getChildReplies());
+            }
+
         }
 
         return result;

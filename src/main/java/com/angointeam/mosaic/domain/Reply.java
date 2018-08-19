@@ -50,6 +50,7 @@ public class Reply {
     private Reply upperReply;
 
     @OneToMany
+    @JsonIgnore
     private List<Reply> childReplies;
 
     private String content;
@@ -102,5 +103,15 @@ public class Reply {
 
     public void setUpperReplyUuid(String upperReplyUuid) {
         this.upperReplyUuid = upperReplyUuid;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof Reply) {
+            return ((Reply)obj).getUuid().equals(uuid);
+        }
+
+        return super.equals(obj);
     }
 }
