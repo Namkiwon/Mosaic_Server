@@ -52,6 +52,7 @@ public class ScriptsService {
 
     //모든 스크립트 가져오기
     public List<Script> getAllScripts(String memberUuid,List<String> categories) {
+        if (categories ==null) categories = new ArrayList<>();
         List<Script> scriptList = new ArrayList<>();
         if(categories.size() == 0) {scriptList =scriptsRepository.findAllWhereValidTrue();}
         else{

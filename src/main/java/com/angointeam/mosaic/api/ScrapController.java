@@ -63,9 +63,18 @@ public class ScrapController {
                     , dataType = "string", paramType = "header")
     })
     @ResponseBody
-    public BaseResponse<Scrap> addScrap(@AuthenticationPrincipal @ApiIgnore final Member member, String scriptUuid) throws IOException {
-        Scrap scrap =scrapService.addScrap(scriptUuid, member.getUuid());
-        return responseScrapReturnSuccess(scrap);
+    public BaseResponse<Script> addScrap(@AuthenticationPrincipal @ApiIgnore final Member member, String scriptUuid) throws IOException {
+        Script script =scrapService.addScrap(scriptUuid, member.getUuid());
+        return responseScrapReturnSuccess(script);
+    }
+
+    private BaseResponse<Script> responseScrapReturnSuccess(Script script) {
+
+        BaseResponse<Script> result = new BaseResponse<>();
+        result.setResponseCode(0);
+        result.setHttpStatus(200);
+        result.setResult(script);
+        return result;
     }
 
     private BaseResponse<Scrap> responseScrapReturnSuccess(Scrap scrap) {
