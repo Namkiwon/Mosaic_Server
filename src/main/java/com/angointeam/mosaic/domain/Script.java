@@ -42,7 +42,7 @@ public class Script implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "writerUuid",referencedColumnName = "uuid")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","authKey","authenticated","createdAt","updatedAt","enabled","authorities","accountNonExpired","accountNonLocked","credentialsNonExpired","password"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","authKey","authenticated","createdAt","updatedAt","enabled","authorities","accountNonExpired","accountNonLocked","credentialsNonExpired","password","email","myScriptCnt","myScrapCnt"})
     private Member writer;
 
     @Column(name = "imgUrls")

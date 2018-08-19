@@ -1,6 +1,7 @@
 package com.angointeam.mosaic.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,6 +29,7 @@ public class Reply {
     private String uuid;
 
     @OneToOne
+    @JsonIgnoreProperties({"email","myScriptCnt","myScrapCnt"})
     private Member writer;
 
     private int depth;
