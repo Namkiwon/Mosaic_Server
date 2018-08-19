@@ -32,7 +32,7 @@ public class Member implements UserDetails {
     @Column(columnDefinition = "VARCHAR(10)")
     private String nick;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(columnDefinition = "VARCHAR(100)", updatable = false, nullable = false, unique = true)
     private String email;
 
