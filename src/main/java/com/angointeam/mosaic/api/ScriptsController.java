@@ -64,10 +64,8 @@ public class ScriptsController {
             @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
                     , dataType = "string", paramType = "header")
     })
-    public BaseResponse<List<Script>> getAll(@AuthenticationPrincipal @ApiIgnore final Member member,@RequestParam("categories") List<String> categories) {
-//        List<String> categories = new ArrayList<>();
+    public BaseResponse<List<Script>> getAll(@AuthenticationPrincipal @ApiIgnore final Member member,@RequestParam(value = "categories", required = false) List<String> categories) {
         List<Script> scriptList = scriptsService.getAllScripts(member.getUuid(),categories);
-        System.out.println(categories);
         return responseScriptListReturnSuccess(scriptList);
     }
 
@@ -78,7 +76,7 @@ public class ScriptsController {
                     , dataType = "string", paramType = "header")
     })
     @ResponseBody
-    public BaseResponse<Script> addScript(@AuthenticationPrincipal @ApiIgnore final Member member, String content , String categoryUuid, @RequestParam("imgUrls") List<MultipartFile> multipartFiles) throws IOException {
+    public BaseResponse<Script> addScript(@AuthenticationPrincipal @ApiIgnore final Member member, String content , String categoryUuid, @RequestParam(value = "imgUrls", required = false) List<MultipartFile> multipartFiles) throws IOException {
 
         Script script = scriptsService.addScript(content,categoryUuid,member.getUuid(),multipartFiles);
         return responseScriptReturnSuccess(script);
