@@ -22,7 +22,7 @@ public class Category implements Serializable {
     @Column(name = "idx", updatable = false, nullable = false)
     private Long idx;
 
-    @Column(name = "uuid", updatable = false, nullable = false,unique = true)
+    @Column(columnDefinition = "VARCHAR(100)",name = "uuid", updatable = false, nullable = false,unique = true)
     private String uuid;
 
     @Column
