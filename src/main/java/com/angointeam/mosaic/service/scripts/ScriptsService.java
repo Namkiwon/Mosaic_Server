@@ -9,6 +9,7 @@ import com.angointeam.mosaic.repositories.CategoryRepository;
 import com.angointeam.mosaic.repositories.MemberRepository;
 import com.angointeam.mosaic.repositories.ScrapRepository;
 import com.angointeam.mosaic.repositories.ScriptsRepository;
+import com.angointeam.mosaic.service.category.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

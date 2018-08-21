@@ -10,10 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ScriptsRepository extends JpaRepository<Script,Long> {
     Script findByUuid(String uuid);
+
+    Optional<Script> findScriptByUuid(String uuid);
 
     @Modifying
     @Query("update Script s set s.content = ?3,s.category = ?4, s.imgUrls =?5 where s.uuid = ?1 and s.writer = ?2")
