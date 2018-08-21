@@ -26,4 +26,8 @@ public class CategoryService {
         return categoryRepository.save(new Category(UUID.randomUUID().toString() ,name,emoji));
     }
 
+    public void updateEmoji(String categoryUuid, String emoji){
+        categoryRepository.updateCategoryByUuid(categoryUuid,emoji);
+    }
+
 }

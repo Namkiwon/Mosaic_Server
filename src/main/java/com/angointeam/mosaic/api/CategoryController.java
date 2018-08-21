@@ -32,6 +32,23 @@ public class CategoryController {
         return responseCategoryReturnSuccess(category);
     }
 
+    @PutMapping("/category")
+    @ResponseBody
+    public BaseResponse<String> updateCategory(String categoryUuid ,String emoji) throws IOException {
+        categoryService.updateEmoji(categoryUuid,emoji);
+        return responseStringReturnSuccess("update finish");
+    }
+
+    private BaseResponse<String> responseStringReturnSuccess(String string) {
+
+        BaseResponse<String> result = new BaseResponse<>();
+        result.setResponseCode(0);
+        result.setHttpStatus(200);
+        result.setMessage(string);
+
+        return result;
+    }
+
     private BaseResponse<Category> responseCategoryReturnSuccess(Category category) {
 
         BaseResponse<Category> result = new BaseResponse<>();
