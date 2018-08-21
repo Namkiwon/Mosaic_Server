@@ -32,7 +32,7 @@ public class Scrap implements Serializable {
     private Script script;
 
     @Column(columnDefinition = "VARCHAR(191)",name = "memberUuid")
-    private String memberUuid;
+    private String memberUuid = "";
 
     public Scrap(){}
     public Scrap(Script script, String memberUuid){

@@ -31,7 +31,7 @@ public class Member implements UserDetails {
     private String uuid;
 
     @Column(columnDefinition = "VARCHAR(10)")
-    private String nick;
+    private String nick = "";
 
     @Column( columnDefinition = "VARCHAR(191)",updatable = false, nullable = false, unique = true)
     private String email;
@@ -45,7 +45,7 @@ public class Member implements UserDetails {
 
     @JsonIgnore
     @Column(columnDefinition = "VARCHAR(15)")
-    private String emailKey;
+    private String emailKey = "";
 
     @ManyToOne
     private University university;

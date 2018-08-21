@@ -37,8 +37,8 @@ public class Script implements Serializable {
     @Column(columnDefinition = "VARCHAR(191)",name = "uuid", updatable = false, nullable = false,unique = true)
     private String uuid;
 
-    @Column(name="content")
-    private String content;
+    @Column(columnDefinition = "LONGTEXT", name="content")
+    private String content = "";
 
     @OneToOne
     @JoinColumn(name = "writerUuid",referencedColumnName = "uuid")

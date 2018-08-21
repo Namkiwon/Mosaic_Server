@@ -26,10 +26,10 @@ public class Category implements Serializable {
     private String uuid;
 
     @Column(columnDefinition = "VARCHAR(191)")
-    private String name;
+    private String name = "";
 
     @Column(columnDefinition = "VARCHAR(191)")
-    private String emoji;
+    private String emoji = "";
 
     public Category(){}
 

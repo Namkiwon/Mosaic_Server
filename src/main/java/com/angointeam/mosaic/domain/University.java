@@ -18,11 +18,11 @@ public class University {
     private long idx;
 
     @Column(columnDefinition = "VARCHAR(191)")
-    private String name;
+    private String name= "";
 
     @Column(columnDefinition = "VARCHAR(191)")
-    private String domain;
+    private String domain = "";
 
     @Column(columnDefinition = "VARCHAR(191)")
-    private String imgUrl;
+    private String imgUrl = "";
 }

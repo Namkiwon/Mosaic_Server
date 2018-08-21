@@ -53,11 +53,14 @@ public class Reply {
     @JsonIgnore
     private List<Reply> childReplies;
 
-    private String content;
+    @Column(columnDefinition = "LONGTEXT")
+    private String content = "";
 
-    private String imgUrl;
+    @Column(columnDefinition = "VARCHAR(191)")
+    private String imgUrl = "";
 
-    private String thumbnailUrl;
+    @Column(columnDefinition = "VARCHAR(191)")
+    private String thumbnailUrl = "";
 
     @JsonIgnore
     @Column(nullable = false, updatable = false)

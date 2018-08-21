@@ -49,7 +49,7 @@ public class ReplyService {
 
         Reply upperReply = null;
 
-        if (upperReplyUuid != null) {
+        if (upperReplyUuid != null && !upperReplyUuid.isEmpty()) {
             upperReply = replyRepository.findReplyByUuid(upperReplyUuid)
                     .orElseThrow(ReplyNotFoundException::new);
 
