@@ -25,7 +25,7 @@ public class Reply {
     @Column(updatable = false, nullable = false)
     private long idx;
 
-    @Column(columnDefinition = "VARCHAR(100)",updatable = false, nullable = false, unique = true)
+    @Column(columnDefinition = "VARCHAR(191)",updatable = false, nullable = false, unique = true)
     private String uuid;
 
     @OneToOne

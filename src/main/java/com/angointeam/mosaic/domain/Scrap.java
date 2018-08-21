@@ -27,11 +27,11 @@ public class Scrap implements Serializable {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(columnDefinition = "VARCHAR(100)",name = "scriptUuid",referencedColumnName = "uuid")
+    @JoinColumn(columnDefinition = "VARCHAR(191)",name = "scriptUuid",referencedColumnName = "uuid")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Script script;
 
-    @Column(columnDefinition = "VARCHAR(100)",name = "memberUuid")
+    @Column(columnDefinition = "VARCHAR(191)",name = "memberUuid")
     private String memberUuid;
 
     public Scrap(){}

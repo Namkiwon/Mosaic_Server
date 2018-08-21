@@ -27,17 +27,17 @@ public class Member implements UserDetails {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "VARCHAR(100)",name = "uuid", unique = true, nullable = false)
+    @Column(columnDefinition = "VARCHAR(191)",name = "uuid", unique = true, nullable = false)
     private String uuid;
 
     @Column(columnDefinition = "VARCHAR(10)")
     private String nick;
 
-    @Column( updatable = false, nullable = false, unique = true)
+    @Column( columnDefinition = "VARCHAR(191)",updatable = false, nullable = false, unique = true)
     private String email;
 
     @JsonIgnore
-    @Column(columnDefinition = "VARCHAR(100)", updatable = false, nullable = false)
+    @Column(columnDefinition = "VARCHAR(191)", updatable = false, nullable = false)
     private String authKey;
 
     @JsonIgnore
