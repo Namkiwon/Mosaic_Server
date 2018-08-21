@@ -7,16 +7,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Long> {
 
-    Category findByUuid(String uuid);
+    Optional<Category> findByUuid(String uuid);
 
-    @Transactional
-    @Modifying
-    @Query("update Category c set c.emoji = ?2 where c.uuid = ?1")
-    void updateCategoryByUuid(String categoryUuid , String emoji);
+//    @Transactional
+//    @Modifying
+//    @Query("update Category c set c.emoji = ?2 where c.uuid = ?1")
+//    void updateCategoryByUuid(String categoryUuid , String emoji);
 
 }

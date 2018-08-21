@@ -78,8 +78,7 @@ public class ScriptsService {
         List<String> imgUrls = new ArrayList<String>();
         List<String> thumbnailUrls = new ArrayList<String>();
 
-        Category category = categoryRepository.findByUuid(categoryUuid);
-
+        Category category = categoryRepository.findByUuid(categoryUuid).get();
         if (category == null) throw new CategoryNotFoundException();
 
         for (int i = 0; i < multipartFiles.size(); i++) {
@@ -118,7 +117,7 @@ public class ScriptsService {
     private CategoryRepository categoryRepository;
 
     public Category getCategoryByUuid(String uuid) {
-        return categoryRepository.findByUuid(uuid);
+        return categoryRepository.findByUuid(uuid).get();
     }
 
     @Autowired

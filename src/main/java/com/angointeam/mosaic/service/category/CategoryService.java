@@ -27,7 +27,11 @@ public class CategoryService {
     }
 
     public void updateEmoji(String categoryUuid, String emoji){
-        categoryRepository.updateCategoryByUuid(categoryUuid,emoji);
+        categoryRepository.findByUuid(categoryUuid).map(category->{
+            category.setEmoji(emoji);
+                return category;
+            }).map(categoryRepository::save)
+                .orElseThrow(CategoryNotFoundException::new);
     }
 
 }
