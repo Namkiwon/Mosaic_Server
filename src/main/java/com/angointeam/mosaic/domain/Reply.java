@@ -94,6 +94,11 @@ public class Reply {
     @Column
     private boolean valid;
 
+    @PostLoad
+    public void setValid(){
+        this.valid = true;
+    }
+
     public String getScriptUuid() {
         if (script == null) return "";
         return script.getUuid();
