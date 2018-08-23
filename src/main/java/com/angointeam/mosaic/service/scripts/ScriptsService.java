@@ -10,6 +10,7 @@ import com.angointeam.mosaic.repositories.MemberRepository;
 import com.angointeam.mosaic.repositories.ScrapRepository;
 import com.angointeam.mosaic.repositories.ScriptsRepository;
 import com.angointeam.mosaic.service.category.CategoryNotFoundException;
+import com.angointeam.mosaic.utils.comparator.ScriptComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,9 +20,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ScriptsService {
@@ -62,6 +62,15 @@ public class ScriptsService {
         for(Script script : scriptList){
             if(scrapList.contains(script.getUuid())) script.setScrap(true);
         }
+
+        Collections.sort(scriptList, new Comparator<Script>() {
+            @Override
+            public int compare(Script o1, Script o2) {
+                if(o1.getIdx() > o2.getIdx()) return -1;
+                else if (o1.getIdx() < o2.getIdx()) return 1;
+                return 0;
+            }
+        });
         return scriptList;
     }
 
