@@ -88,14 +88,18 @@ public class ScriptsService {
         Category category = categoryRepository.findByUuid(categoryUuid).get();
         if (category == null) throw new CategoryNotFoundException();
 
-        for (MultipartFile multipartFile : multipartFiles) {
-            imgUrls.add(s3Uploader.upload(multipartFile, "scripts/"+uuid));  //원본 이미지
-            BufferedImage image = ImageIO.read(multipartFile.getInputStream());
-            BufferedImage resized = resize(image, 300, 300);
-            File outputfile = new File(multipartFile.getOriginalFilename());
-            ImageIO.write(resized, "png", outputfile);
-            thumbnailUrls.add(s3Uploader.upload(outputfile, "scripts/"+uuid+"/thumbnail"));//썸네일 이미지
+        if(multipartFiles != null){
+            for (MultipartFile multipartFile : multipartFiles) {
+                System.out.println(multipartFile);
+                imgUrls.add(s3Uploader.upload(multipartFile, "scripts/"+uuid));  //원본 이미지
+                BufferedImage image = ImageIO.read(multipartFile.getInputStream());
+                BufferedImage resized = resize(image, 300, 300);
+                File outputfile = new File(multipartFile.getOriginalFilename());
+                ImageIO.write(resized, "png", outputfile);
+                thumbnailUrls.add(s3Uploader.upload(outputfile, "scripts/"+uuid+"/thumbnail"));//썸네일 이미지
+            }
         }
+
 
         Member writer = getWriter(writerUuid);
 
