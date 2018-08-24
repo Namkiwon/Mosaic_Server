@@ -32,8 +32,8 @@ public class EmailSender {
     public void send(String to, String uuid, String emailKey) throws Exception {
 
         String html = "<h1>모자이크 가입 인증 메일</h1>"
-                + "<p>다음 링크를 누르시면 가입인증을 완료합니다. <a href='"+appHost+":"+appPort
-                + "/login/email/"+uuid+"/"+emailKey+"'>인증하기</a>";
+                + "<p>다음 링크를 누르시면 가입인증을 완료합니다. "+appHost+":"+appPort
+                + "/login/email/"+uuid+"/"+emailKey;
 
         String text = "다음 링크를 누르시면 가입 인증을 완료 합니다. "
                 + appHost + ":" + appPort

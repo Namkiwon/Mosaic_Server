@@ -81,7 +81,11 @@ public class LoginService {
 
         Optional<Member> already = memberRepository.findMemberByEmail(email);
 
-        if (already.isPresent()) return already.get();
+        if (already.isPresent()) {
+            Member alreadyMember = already.get();
+            alreadyMember.setAuthenticated(false);
+            return memberRepository.save(alreadyMember);
+        }
 
         Member member = new Member();
         member.setUniversity(university);
