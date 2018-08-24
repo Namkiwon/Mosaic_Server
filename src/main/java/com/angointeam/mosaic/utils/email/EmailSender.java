@@ -33,7 +33,7 @@ public class EmailSender {
 
         String html = "<h1>모자이크 가입 인증 메일</h1>"
                 + "<p>다음 링크를 누르시면 가입인증을 완료합니다. "+appHost+":"+appPort
-                + "/login/email/"+uuid+"/"+emailKey;
+                + "/login/auth/"+uuid+"/"+emailKey;
 
         String text = "다음 링크를 누르시면 가입 인증을 완료 합니다. "
                 + appHost + ":" + appPort
