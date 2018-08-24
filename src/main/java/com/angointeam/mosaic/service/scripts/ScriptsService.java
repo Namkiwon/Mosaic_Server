@@ -10,6 +10,7 @@ import com.angointeam.mosaic.repositories.MemberRepository;
 import com.angointeam.mosaic.repositories.ScrapRepository;
 import com.angointeam.mosaic.repositories.ScriptsRepository;
 import com.angointeam.mosaic.service.category.CategoryNotFoundException;
+import com.angointeam.mosaic.utils.comparator.ScriptComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,9 +20,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ScriptsService {
@@ -62,6 +62,15 @@ public class ScriptsService {
         for(Script script : scriptList){
             if(scrapList.contains(script.getUuid())) script.setScrap(true);
         }
+
+        Collections.sort(scriptList, new Comparator<Script>() {
+            @Override
+            public int compare(Script o1, Script o2) {
+                if(o1.getIdx() > o2.getIdx()) return -1;
+                else if (o1.getIdx() < o2.getIdx()) return 1;
+                return 0;
+            }
+        });
         return scriptList;
     }
 
@@ -79,14 +88,18 @@ public class ScriptsService {
         Category category = categoryRepository.findByUuid(categoryUuid).get();
         if (category == null) throw new CategoryNotFoundException();
 
-        for (MultipartFile multipartFile : multipartFiles) {
-            imgUrls.add(s3Uploader.upload(multipartFile, "scripts/"+uuid));  //원본 이미지
-            BufferedImage image = ImageIO.read(multipartFile.getInputStream());
-            BufferedImage resized = resize(image, 300, 300);
-            File outputfile = new File(multipartFile.getOriginalFilename());
-            ImageIO.write(resized, "png", outputfile);
-            thumbnailUrls.add(s3Uploader.upload(outputfile, "scripts/"+uuid+"/thumbnail"));//썸네일 이미지
+        if(multipartFiles != null){
+            for (MultipartFile multipartFile : multipartFiles) {
+                System.out.println(multipartFile);
+                imgUrls.add(s3Uploader.upload(multipartFile, "scripts/"+uuid));  //원본 이미지
+                BufferedImage image = ImageIO.read(multipartFile.getInputStream());
+                BufferedImage resized = resize(image, 300, 300);
+                File outputfile = new File(multipartFile.getOriginalFilename());
+                ImageIO.write(resized, "png", outputfile);
+                thumbnailUrls.add(s3Uploader.upload(outputfile, "scripts/"+uuid+"/thumbnail"));//썸네일 이미지
+            }
         }
+
 
         Member writer = getWriter(writerUuid);
 
@@ -95,8 +108,12 @@ public class ScriptsService {
 
 
     //스크립트 삭제 -> 사실상 발리드만 false
-    public void deleteScript(String scriptUuid)  {
-        scriptsRepository.updateScriptValidFalse(scriptUuid);
+    public Script deleteScript(String scriptUuid)  {
+        return scriptsRepository.findScriptByUuid(scriptUuid).map(script -> {
+            script.setValid(false);
+            return scriptsRepository.save(script);
+        }).orElseThrow(ScriptNotFoundException::new);
+//        scriptsRepository.updateScriptValidFalse(scriptUuid);
     }
 
 

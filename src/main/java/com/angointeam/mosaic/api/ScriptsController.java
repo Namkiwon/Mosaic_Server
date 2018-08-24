@@ -88,9 +88,9 @@ public class ScriptsController {
             @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
                     , dataType = "string", paramType = "header")
     })
-    public BaseResponse<String> deleteScript(String scriptUuid) throws IOException {
-        scriptsService.deleteScript(scriptUuid);
-        return responseMessageReturnSuccess("delete success");
+    public BaseResponse<Script> deleteScript(String scriptUuid) throws IOException {
+        Script script = scriptsService.deleteScript(scriptUuid);
+        return responseScriptReturnSuccess(script);
     }
 
     private BaseResponse<String> responseMessageReturnSuccess(String resultMessage) {
