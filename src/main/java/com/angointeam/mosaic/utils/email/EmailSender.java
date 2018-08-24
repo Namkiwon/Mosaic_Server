@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -12,14 +13,16 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+
+@RequiredArgsConstructor
 @Component
 public class EmailSender {
 
-    @Value("{appHost}")
-    static String appHost;
+    @Value("${app.host}")
+    private String appHost;
 
-    @Value("{appPort}")
-    static String appPort;
+    @Value("${app.port}")
+    private String appPort;
 
 
     static final String FROM = "angointeam@gmail.com";
@@ -35,10 +38,6 @@ public class EmailSender {
         String text = "다음 링크를 누르시면 가입 인증을 완료 합니다. "
                 + appHost + ":" + appPort
                 + "/login/email/"+uuid+"/"+emailKey;
-
-        System.out.println("send email with html : " + html);
-        System.out.println("send email with text : " + text);
-
 
         AmazonSimpleEmailService client =
                 AmazonSimpleEmailServiceClientBuilder.standard()
