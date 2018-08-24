@@ -42,7 +42,7 @@ public class LoginService {
     public Map<String, String> login(String uuid, String authKey) {
         return memberRepository.findMemberByUuidAndAuthKey(uuid,authKey)
                 .map(member -> {
-                    //if (!member.isAuthenticated()) throw new EmailNotYetException();
+                    if (!member.isAuthenticated()) throw new EmailNotYetException();
                     return tokenService.expiring(ImmutableMap.of("uuid",uuid));
                 })
                 .map(this::createTokenMap)
@@ -55,7 +55,7 @@ public class LoginService {
 
         if (universityOptional.isPresent())
             return universityOptional.map(university -> createMember(university,email))
-                    //.map(this::sendAuthEmail)
+                    .map(this::sendAuthEmail)
                     .map(member -> createUuidAndKeyMap(member.getUuid(),member.getAuthKey()))
                     .orElseThrow(LoginErrorException::new);
 
@@ -97,11 +97,7 @@ public class LoginService {
     private Member sendAuthEmail(Member member) {
         try {
 
-            emailSender.send(EmailSender.messageBuilder()
-                    .setEmailKey(member.getEmailKey())
-                    .setUuid(member.getUuid())
-                    .setSendTo(member.getEmail()).build());
-
+            emailSender.send(member.getEmail(),member.getUuid(),member.getEmailKey());
             return member;
 
         } catch (Exception e) {
