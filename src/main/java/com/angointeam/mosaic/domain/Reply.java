@@ -40,6 +40,9 @@ public class Reply {
     @Transient
     private String upperReplyUuid;
 
+    @Transient
+    private String upperReplyNick;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "scriptUuid", referencedColumnName = "uuid")
@@ -107,6 +110,11 @@ public class Reply {
     public String getUpperReplyUuid() {
         if (upperReply == null) return "";
         return upperReply.getUuid();
+    }
+
+    public String getUpperReplyNick() {
+        if (upperReply == null) return "";
+        return upperReply.getWriter().getNick();
     }
 
     public void setUpperReplyUuid(String upperReplyUuid) {
