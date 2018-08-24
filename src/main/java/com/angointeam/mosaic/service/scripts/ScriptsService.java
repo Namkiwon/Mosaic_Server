@@ -104,8 +104,12 @@ public class ScriptsService {
 
 
     //스크립트 삭제 -> 사실상 발리드만 false
-    public void deleteScript(String scriptUuid)  {
-        scriptsRepository.updateScriptValidFalse(scriptUuid);
+    public Script deleteScript(String scriptUuid)  {
+        return scriptsRepository.findScriptByUuid(scriptUuid).map(script -> {
+            script.setValid(false);
+            return scriptsRepository.save(script);
+        }).orElseThrow(ScriptNotFoundException::new);
+//        scriptsRepository.updateScriptValidFalse(scriptUuid);
     }
 
 
