@@ -25,4 +25,10 @@ public class University {
 
     @Column(columnDefinition = "VARCHAR(191)")
     private String imgUrl = "";
+
+    public University(String name, String domain, String imgUrl){
+        this.name = name;
+        this.domain = domain;
+        this.imgUrl = imgUrl;
+    }
 }
