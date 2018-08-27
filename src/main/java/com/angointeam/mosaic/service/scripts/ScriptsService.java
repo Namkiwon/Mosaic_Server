@@ -54,9 +54,18 @@ public class ScriptsService {
         List<Script> scriptList = new ArrayList<>();
         if(categories.size() == 0) {scriptList =scriptsRepository.findAllWhereValidTrue();}
         else{
-            for (String categoryUuid :categories){
-                scriptList.addAll(scriptsRepository.findAllByCategoryUuid(categoryUuid));
+
+            if(categories.get(0).split(",").length>1){ // ios 호출
+                categories = Arrays.asList(categories.get(0).split(","));
+                for (String categoryUuid :categories){
+                    scriptList.addAll(scriptsRepository.findAllByCategoryUuid(categoryUuid));
+                }
+            }else{
+                for (String categoryUuid :categories){
+                    scriptList.addAll(scriptsRepository.findAllByCategoryUuid(categoryUuid));
+                }
             }
+
         }
         List<String>  scrapList = getScrapUuidListByUuid(memberUuid);
         for(Script script : scriptList){
