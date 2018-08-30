@@ -101,7 +101,7 @@ public class ScriptsService {
             for (MultipartFile multipartFile : multipartFiles) {
 
                 BufferedImage image = ImageIO.read(multipartFile.getInputStream());
-                BufferedImage resized = resize(image, 1024, 1024);
+                BufferedImage resized = resize(image, 1000, 1000);
                 File outputfile = new File(multipartFile.getOriginalFilename());
                 ImageIO.write(resized, "png", outputfile);
                 imgUrls.add(s3Uploader.upload(multipartFile, "scripts/"+uuid));  //원본 이미지
