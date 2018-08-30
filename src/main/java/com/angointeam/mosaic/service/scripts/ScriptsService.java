@@ -99,13 +99,17 @@ public class ScriptsService {
 
         if(multipartFiles != null){
             for (MultipartFile multipartFile : multipartFiles) {
-                System.out.println(multipartFile);
-                imgUrls.add(s3Uploader.upload(multipartFile, "scripts/"+uuid));  //원본 이미지
+
                 BufferedImage image = ImageIO.read(multipartFile.getInputStream());
-                BufferedImage resized = resize(image, 300, 300);
+                BufferedImage resized = resize(image, 1024, 1024);
                 File outputfile = new File(multipartFile.getOriginalFilename());
                 ImageIO.write(resized, "png", outputfile);
-                thumbnailUrls.add(s3Uploader.upload(outputfile, "scripts/"+uuid+"/thumbnail"));//썸네일 이미지
+                imgUrls.add(s3Uploader.upload(multipartFile, "scripts/"+uuid));  //원본 이미지
+
+                BufferedImage resizedTumbnail = resize(image, 300, 300);
+                File outputfileThumbnail = new File(multipartFile.getOriginalFilename());
+                ImageIO.write(resizedTumbnail, "png", outputfileThumbnail);
+                thumbnailUrls.add(s3Uploader.upload(outputfileThumbnail, "scripts/"+uuid+"/thumbnail"));//썸네일 이미지
             }
         }
 
