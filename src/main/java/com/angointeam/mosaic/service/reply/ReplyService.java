@@ -38,6 +38,7 @@ public class ReplyService {
         reply.setUuid(UUID.randomUUID().toString());
         reply.setContent(content);
         reply.setWriter(member);
+        reply.setValid(true);
 
         System.out.println(scriptUuid);
 
