@@ -29,13 +29,25 @@ public class ScriptsService {
     @Autowired
     S3Uploader s3Uploader;
 
-
     @Autowired
     private ScriptsRepository scriptsRepository;
 
+    @Autowired
+    private ScrapRepository scrapRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
     //스크립트 하나 가져오기
-    public Script getScriptByUuid(String uuid){
-        return scriptsRepository.findByUuid(uuid);
+    public Script getScriptByUuid(String memberUuid, String scriptUuid){
+        return scriptsRepository.findScriptByUuid(scriptUuid).map(script -> {
+            if(scrapRepository.findScrapByScriptAndMemberUuid(script,memberUuid).isPresent())
+                script.setScrap(true);
+            return script;
+        }).orElseThrow(ScriptNotFoundException::new);
     }
 
     //컨텐트 검색으로 스크립트들 가져오기
@@ -134,22 +146,15 @@ public class ScriptsService {
     }
 
 
-    @Autowired
-    private ScrapRepository scrapRepository;
-
     public List<String> getScrapUuidListByUuid(String memberUuid){
         return scrapRepository.findScriptUuidListByMemberUuid(memberUuid);
     }
 
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     public Category getCategoryByUuid(String uuid) {
         return categoryRepository.findByUuid(uuid).get();
     }
 
-    @Autowired
-    private MemberRepository memberRepository;
 
     public Member getWriter(String writerUuid) {
         return memberRepository.findByUuid(writerUuid);

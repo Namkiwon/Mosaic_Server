@@ -32,8 +32,8 @@ public class ScriptsController {
             @ApiImplicitParam(name = "Authorization", value = "authorization : Bearer {token}", required = true
                     , dataType = "string", paramType = "header")
     })
-    public BaseResponse<Script> getScript(String scriptUuid){
-        Script script = scriptsService.getScriptByUuid(scriptUuid);
+    public BaseResponse<Script> getScript(@AuthenticationPrincipal @ApiIgnore final Member member, String scriptUuid){
+        Script script = scriptsService.getScriptByUuid(member.getUuid(),scriptUuid);
         return responseScriptReturnSuccess(script);
     }
 
