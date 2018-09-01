@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -97,10 +98,10 @@ public class Reply {
     @Column
     private boolean valid;
 
-    @PostLoad
-    public void setValid(){
-        this.valid = true;
-    }
+//    @PostLoad
+//    public void setValid(){
+//        this.valid = true;
+//    }
 
     public String getScriptUuid() {
         if (script == null) return "";

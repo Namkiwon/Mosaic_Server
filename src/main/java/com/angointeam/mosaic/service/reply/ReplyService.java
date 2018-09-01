@@ -101,7 +101,8 @@ public class ReplyService {
         for (Reply r : replies) {
             if ( !result.contains(r) ) {
                 result.add(r);
-                result.addAll(r.getChildReplies());
+
+                result.addAll(replyRepository.findRepliesByScriptAndUpperReplyAndValid(script,r,true));
             }
 
         }

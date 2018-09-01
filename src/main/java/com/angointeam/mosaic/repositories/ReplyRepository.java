@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface ReplyRepository  extends JpaRepository<Reply,Long> {
 
     //@Query("select r from Reply r where r.script_uuid = scriptUuid")
-    List<Reply> findRepliesByScript(Script script);
+    List<Reply> findRepliesByScriptAndUpperReplyAndValid(Script script,Reply upperReply, boolean valid);
 
     List<Reply> findRepliesByScriptAndValid(Script script,boolean valid);
 
