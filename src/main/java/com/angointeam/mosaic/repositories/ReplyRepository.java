@@ -16,5 +16,7 @@ public interface ReplyRepository  extends JpaRepository<Reply,Long> {
     //@Query("select r from Reply r where r.script_uuid = scriptUuid")
     List<Reply> findRepliesByScript(Script script);
 
+    List<Reply> findRepliesByScriptAndValid(Script script,boolean valid);
+
     Optional<Reply> findReplyByUuid(String uuid);
 }

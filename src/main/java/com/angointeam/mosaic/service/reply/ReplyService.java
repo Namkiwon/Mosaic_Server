@@ -95,7 +95,7 @@ public class ReplyService {
 
         if (script == null) throw new ScrpitNotFoundException();
 
-        List<Reply> replies = replyRepository.findRepliesByScript(script);
+        List<Reply> replies = replyRepository.findRepliesByScriptAndValid(script,true);
         List<Reply> result = new ArrayList<>();
 
         for (Reply r : replies) {
