@@ -59,7 +59,7 @@ public class ReplyController {
     public BaseResponse<String> deleteReply(@PathVariable String replyUuid) {
         replyService.deleteReply(replyUuid);
         BaseResponse<String> response = new BaseResponse<>();
-        response.setResult("삭제 가능합니다.");
+        response.setResult("삭제 되었습니다.");
         return  response;
     }
 
