@@ -85,6 +85,7 @@ public class ReplyService {
         return replyRepository.findReplyByUuid(uuid)
                             .map(reply -> {
                                 reply.setValid(false);
+                                reply.setContent("삭제된 댓글입니다.");
                                 return reply;
                             }).map(replyRepository::save)
                             .orElseThrow(ReplyNotFoundException::new);
@@ -95,14 +96,14 @@ public class ReplyService {
 
         if (script == null) throw new ScrpitNotFoundException();
 
-        List<Reply> replies = replyRepository.findRepliesByScriptAndValid(script,true);
+//        List<Reply> replies = replyRepository.findRepliesByScriptAndValidAndDepth(script,true,0);
+        List<Reply> replies = replyRepository.findRepliesByScriptAndDepth(script,0);
         List<Reply> result = new ArrayList<>();
 
         for (Reply r : replies) {
             if ( !result.contains(r) ) {
                 result.add(r);
-
-                result.addAll(replyRepository.findRepliesByScriptAndUpperReplyAndValid(script,r,true));
+                result.addAll(replyRepository.findRepliesByScriptAndUpperReply(script,r));
             }
 
         }

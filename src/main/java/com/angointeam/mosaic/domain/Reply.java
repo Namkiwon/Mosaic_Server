@@ -94,7 +94,6 @@ public class Reply {
         return updated.getTime();
     }
 
-    @JsonIgnore
     @Column
     private boolean valid;
 
