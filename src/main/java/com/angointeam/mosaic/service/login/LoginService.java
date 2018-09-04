@@ -43,11 +43,11 @@ public class LoginService {
         return memberRepository.findMemberByUuidAndAuthKey(uuid,authKey)
                 .map(member -> {
                     // AWS SES SENDBOX 탈출 할때 까지만
-                    member.setAuthenticated(true);
-                    memberRepository.save(member);
+//                    member.setAuthenticated(true);
+//                    memberRepository.save(member);
 
                     // AWS SES SENDBOX 탈출 하면 풀기
-                    //if (!member.isAuthenticated()) throw new EmailNotYetException();
+                    if (!member.isAuthenticated()) throw new EmailNotYetException();
                     return tokenService.expiring(ImmutableMap.of("uuid",uuid));
                 })
                 .map(this::createTokenMap)
@@ -60,7 +60,7 @@ public class LoginService {
 
         if (universityOptional.isPresent())
             return universityOptional.map(university -> createMember(university,email))
-                    //.map(this::sendAuthEmail)
+                    .map(this::sendAuthEmail)
                     .map(member -> createUuidAndKeyMap(member.getUuid(),member.getAuthKey()))
                     .orElseThrow(LoginErrorException::new);
 
